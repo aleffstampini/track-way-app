@@ -1,4 +1,4 @@
-package br.com.track_way_app;
+package br.com.trackwayapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
