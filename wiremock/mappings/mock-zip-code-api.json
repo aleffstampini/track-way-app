@@ -1,0 +1,95 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/zipcode/0936190"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"zipCode\":\"0936190\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Camila\",\"street\":\"Rua Lontras\",\"latitude\":-23.697466,\"longitude\":-46.4574843}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/zipcode/09361110"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"zipCode\":\"09361110\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Oratório\",\"street\":\"Rua Hélio\",\"latitude\":-23.693019,\"longitude\":-46.463549}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/zipcode/09361000"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"zipCode\":\"09361000\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Centro\",\"street\":\"Rua São Paulo\",\"latitude\":-23.673167,\"longitude\":-46.4635083}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/zipcode/09360400"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"zipCode\":\"09360400\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Alvorada\",\"street\":\"Avenida Guarulhos\",\"latitude\":-23.680771,\"longitude\":-46.4695373}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/zipcode/09361700"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"zipCode\":\"09361700\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Zaira\",\"street\":\"Rua Guarani\",\"latitude\":-23.688693,\"longitude\":-46.4556775}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/zipcode/09361180"
+      },
+      "response": {
+        "status": 200,
+        "body": "{\"zipCode\":\"09361180\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Aida\",\"street\":\"Rua Araras\",\"latitude\":-23.692251,\"longitude\":-46.4608471}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/zipcode/(?!0936190|09361110|09361000|09360400|09361700|09361180)[0-9]{8}"
+      },
+      "response": {
+        "status": 404,
+        "body": "{\"message\": \"Not Found\"}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  ]
+}

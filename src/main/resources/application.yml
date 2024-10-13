@@ -21,4 +21,4 @@ spring:
 
 zip_code:
   api:
-    base_url: http://localhost:8080/zipcode/
+    base_url: http://wiremock:8080//zipcode/

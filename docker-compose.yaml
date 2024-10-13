@@ -11,6 +11,13 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  wiremock:
+    image: wiremock/wiremock:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./wiremock:/home/wiremock
+
   spring-boot-app:
     build: .
     ports:
@@ -21,6 +28,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: 1601
     depends_on:
       - postgres
+      - wiremock
 
 volumes:
   postgres-data:

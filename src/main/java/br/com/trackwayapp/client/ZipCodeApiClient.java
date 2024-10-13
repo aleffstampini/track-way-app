@@ -40,5 +40,4 @@ public class ZipCodeApiClient {
 
         return response;
     }
-
 }
