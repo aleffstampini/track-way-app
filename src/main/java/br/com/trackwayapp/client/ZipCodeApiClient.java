@@ -18,7 +18,7 @@ public class ZipCodeApiClient {
 
     private final PropertiesConfiguration propertiesConfiguration;
 
-    public ZipCodeResponseDto fetchZipCodeInfo(String zipCode) {
+    public ZipCodeResponseDto fetchZipCodeDetails(String zipCode) {
         StringBuilder finalUrl = new StringBuilder();
         finalUrl.append(this.propertiesConfiguration.getZipCodeApiBaseUrl());
         finalUrl.append(zipCode);
