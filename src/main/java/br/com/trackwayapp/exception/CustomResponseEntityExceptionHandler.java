@@ -2,7 +2,7 @@ package br.com.trackwayapp.exception;
 
 import br.com.trackwayapp.dto.response.DefaultPageableResponseDto;
 import br.com.trackwayapp.dto.response.ZipCodeResponseDto;
-import br.com.trackwayapp.enuns.StatusEnum;
+import br.com.trackwayapp.enums.StatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

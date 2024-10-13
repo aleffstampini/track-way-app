@@ -1,4 +1,4 @@
-package br.com.trackwayapp.enuns;
+package br.com.trackwayapp.enums;
 
 public enum StatusEnum {
 

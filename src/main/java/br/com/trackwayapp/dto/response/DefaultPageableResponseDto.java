@@ -1,6 +1,6 @@
 package br.com.trackwayapp.dto.response;
 
-import br.com.trackwayapp.enuns.StatusEnum;
+import br.com.trackwayapp.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
