@@ -2,11 +2,12 @@ package br.com.trackwayapp.client;
 
 import br.com.trackwayapp.config.PropertiesConfiguration;
 import br.com.trackwayapp.dto.response.ZipCodeDetailsResponseDto;
+import br.com.trackwayapp.exception.ZipCodeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -15,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 public class ZipCodeApiClient {
 
     private final RestTemplate restTemplate;
-
     private final PropertiesConfiguration propertiesConfiguration;
 
     public ZipCodeDetailsResponseDto fetchZipCodeDetails(String zipCode) {
@@ -23,21 +23,30 @@ public class ZipCodeApiClient {
         finalUrl.append(this.propertiesConfiguration.getZipCodeApiBaseUrl());
         finalUrl.append(zipCode);
 
-        ZipCodeDetailsResponseDto response = new ZipCodeDetailsResponseDto();
-
         try {
-            ResponseEntity<ZipCodeDetailsResponseDto> responseEntity = this.restTemplate.exchange(
-                finalUrl.toString(),
-                HttpMethod.GET,
-                null,
-                ZipCodeDetailsResponseDto.class
-            );
+            ResponseEntity<ZipCodeDetailsResponseDto> responseEntity = this.restTemplate.getForEntity(
+                finalUrl.toString(), ZipCodeDetailsResponseDto.class);
 
-            response = responseEntity.getBody();
-        } catch (Exception e) {
-            log.error("Error to fetch zip code info in client", e);
+            return this.handleResponse(responseEntity);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode().value() == 404) {
+                String messageError = "Zip code not found: " + zipCode;
+
+                log.error(messageError);
+                throw new ZipCodeNotFoundException(messageError);
+            } else {
+                log.error("Unexpected error fetching zip code details: {}", e.getMessage());
+                throw new RuntimeException("Unexpected error: " + e.getMessage());
+            }
+        }
+    }
+
+    private ZipCodeDetailsResponseDto handleResponse(ResponseEntity<ZipCodeDetailsResponseDto> responseEntity) {
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            return responseEntity.getBody();
         }
 
-        return response;
+        log.error("Unexpected status code: {}", responseEntity.getStatusCode());
+        throw new RuntimeException("Unexpected error while fetching zip code details.");
     }
 }

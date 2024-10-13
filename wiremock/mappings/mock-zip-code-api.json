@@ -85,7 +85,7 @@
       },
       "response": {
         "status": 404,
-        "body": "{\"message\": \"Not Found\"}",
+        "body": null,
         "headers": {
           "Content-Type": "application/json"
         }
