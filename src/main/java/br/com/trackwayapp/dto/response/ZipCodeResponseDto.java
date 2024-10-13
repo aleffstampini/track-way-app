@@ -1,14 +1,18 @@
 package br.com.trackwayapp.dto.response;
 
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.Collections;
 
-@Data
-public class ZipCodeResponseDto {
-    private String zipCode;
-    private String state;
-    private String city;
-    private String neighborhood;
-    private String street;
-    private double latitude;
-    private double longitude;
+public class ZipCodeResponseDto extends DefaultPageableResponseDto<ZipCodeDetailsResponseDto> {
+
+    public ZipCodeResponseDto(ZipCodeDetailsResponseDto apiResponseDto) {
+        this.content = Collections.singletonList(apiResponseDto);
+        this.refreshPageable();
+    }
+
+    public ZipCodeResponseDto() {
+        this.content = new ArrayList<>();
+        this.refreshPageable();
+    }
+
 }

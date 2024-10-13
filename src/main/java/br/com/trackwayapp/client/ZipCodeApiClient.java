@@ -1,7 +1,7 @@
 package br.com.trackwayapp.client;
 
 import br.com.trackwayapp.config.PropertiesConfiguration;
-import br.com.trackwayapp.dto.response.ZipCodeResponseDto;
+import br.com.trackwayapp.dto.response.ZipCodeDetailsResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
@@ -18,19 +18,19 @@ public class ZipCodeApiClient {
 
     private final PropertiesConfiguration propertiesConfiguration;
 
-    public ZipCodeResponseDto fetchZipCodeDetails(String zipCode) {
+    public ZipCodeDetailsResponseDto fetchZipCodeDetails(String zipCode) {
         StringBuilder finalUrl = new StringBuilder();
         finalUrl.append(this.propertiesConfiguration.getZipCodeApiBaseUrl());
         finalUrl.append(zipCode);
 
-        ZipCodeResponseDto response = new ZipCodeResponseDto();
+        ZipCodeDetailsResponseDto response = new ZipCodeDetailsResponseDto();
 
         try {
-            ResponseEntity<ZipCodeResponseDto> responseEntity = this.restTemplate.exchange(
+            ResponseEntity<ZipCodeDetailsResponseDto> responseEntity = this.restTemplate.exchange(
                 finalUrl.toString(),
                 HttpMethod.GET,
                 null,
-                ZipCodeResponseDto.class
+                ZipCodeDetailsResponseDto.class
             );
 
             response = responseEntity.getBody();

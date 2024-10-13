@@ -1,5 +1,7 @@
 package br.com.trackwayapp.controller;
 
+import br.com.trackwayapp.dto.response.DefaultPageableResponseDto;
+import br.com.trackwayapp.dto.response.ZipCodeDetailsResponseDto;
 import br.com.trackwayapp.dto.response.ZipCodeResponseDto;
 import br.com.trackwayapp.service.ZipCodeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,8 +20,9 @@ public class ZipCodeController {
     private final ZipCodeService zipCodeService;
 
     @GetMapping("/{zipCode}")
-    public ResponseEntity<ZipCodeResponseDto> getZipCodeDetails(@PathVariable String zipCode) throws JsonProcessingException {
-        ZipCodeResponseDto response = this.zipCodeService.getZipCodeDetails(zipCode);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<DefaultPageableResponseDto<ZipCodeDetailsResponseDto>> getZipCodeDetails(
+            @PathVariable String zipCode) {
+        ZipCodeDetailsResponseDto zipCodeDetails = this.zipCodeService.getZipCodeDetails(zipCode);
+        return ResponseEntity.ok(new ZipCodeResponseDto(zipCodeDetails));
     }
 }
