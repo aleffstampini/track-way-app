@@ -18,7 +18,7 @@ public class ZipCodeController {
     private final ZipCodeService zipCodeService;
 
     @GetMapping("/{zipCode}")
-    public ResponseEntity<ZipCodeResponseDto> getZipCodeInfo(@PathVariable String zipCode) throws JsonProcessingException {
+    public ResponseEntity<ZipCodeResponseDto> getZipCodeDetails(@PathVariable String zipCode) throws JsonProcessingException {
         ZipCodeResponseDto response = this.zipCodeService.getZipCodeDetails(zipCode);
         return ResponseEntity.ok(response);
     }
