@@ -1,19 +1,16 @@
 package br.com.trackwayapp.service;
 
 import br.com.trackwayapp.domain.Product;
-import br.com.trackwayapp.domain.ProductLocation;
-import br.com.trackwayapp.dto.ProductStatusUpdateDto;
-import br.com.trackwayapp.repository.ProductLocationRepository;
+import br.com.trackwayapp.domain.ProductHistory;
+import br.com.trackwayapp.dto.ProductDto;
+import br.com.trackwayapp.dto.response.PostalCodeDetailsResponseDto;
 import br.com.trackwayapp.repository.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,36 +18,28 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductLocationRepository productLocationRepository;
 
-    public Product getProductById(Long productId) {
-        return this.productRepository.findById(productId)
-            .orElseThrow(() -> new EntityNotFoundException("Product not found"));
-    }
+    private final ProductHistoryService productHistoryService;
+    private final ProductDetailsService productDetailsService;
+    private final PostalCodeService postalCodeService;
 
-    public List<ProductLocation> getProductHistoryLocation(Long productId) {
-        Product product = this.getProductById(productId);
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-        return product.getLocations().stream()
-            .sorted(Comparator.comparing(ProductLocation::getUpdateTimestamp))
-            .toList();
-    }
+    @KafkaListener(topics = "add-product", groupId = "group_id")
+    public void addProduct(String message) throws JsonProcessingException {
+        ProductDto productDto = this.objectMapper.readValue(message, ProductDto.class);
 
-    @KafkaListener(topics = "product-status")
-    public void updateProductStatus(ProductStatusUpdateDto productStatusUpdate) {
-        log.info("Status update received for product: {}",
-            productStatusUpdate.getProductId());
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setDestinationAddress(productDto.getDestinationAddress());
 
-        Product product = this.getProductById(productStatusUpdate.getProductId());
+        Product savedProduct = this.productRepository.save(product);
 
-        ProductLocation newLocation = new ProductLocation();
-        newLocation.setProduct(product);
-        newLocation.setStatus(productStatusUpdate.getStatus());
-        newLocation.setCurrentZipCode(productStatusUpdate.getCurrentLocation());
-        newLocation.setUpdateTimestamp(LocalDateTime.now());
+        ProductHistory savedProductHistory = this.productHistoryService.saveProductHistory(
+            savedProduct, productDto.getCurrentPostalCode());
 
-        this.productLocationRepository.save(newLocation);
-        log.info("New location for product {} saved with status: {}",
-            product.getId(), productStatusUpdate.getStatus());
+        PostalCodeDetailsResponseDto postalCodeDetailsResponse = this.postalCodeService.getPostalCodeDetails(savedProductHistory);
+
+        this.productDetailsService.saveProductDetails(savedProductHistory, postalCodeDetailsResponse);
     }
 }

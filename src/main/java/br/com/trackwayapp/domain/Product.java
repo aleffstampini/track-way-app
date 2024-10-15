@@ -1,5 +1,6 @@
 package br.com.trackwayapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,11 +29,11 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "postal_code")
-    private String postalCode;
+    @Column(name = "destinationAddress")
+    private String destinationAddress;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    @Column(name = "log_id")
-    private List<ProductLocation> locations = new ArrayList<>();
+    @JsonIgnore
+    private List<ProductHistory> history = new ArrayList<>();
 
 }
