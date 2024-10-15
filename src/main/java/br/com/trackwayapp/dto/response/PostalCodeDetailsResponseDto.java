@@ -3,8 +3,8 @@ package br.com.trackwayapp.dto.response;
 import lombok.Data;
 
 @Data
-public class ZipCodeDetailsResponseDto {
-    private String zipCode;
+public class PostalCodeDetailsResponseDto {
+    private String postalCode;
     private String state;
     private String city;
     private String neighborhood;

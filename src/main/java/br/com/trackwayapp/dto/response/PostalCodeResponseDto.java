@@ -3,14 +3,14 @@ package br.com.trackwayapp.dto.response;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ZipCodeResponseDto extends DefaultPageableResponseDto<ZipCodeDetailsResponseDto> {
+public class PostalCodeResponseDto extends DefaultPageableResponseDto<PostalCodeDetailsResponseDto> {
 
-    public ZipCodeResponseDto(ZipCodeDetailsResponseDto apiResponseDto) {
+    public PostalCodeResponseDto(PostalCodeDetailsResponseDto apiResponseDto) {
         this.content = Collections.singletonList(apiResponseDto);
         this.refreshPageable();
     }
 
-    public ZipCodeResponseDto() {
+    public PostalCodeResponseDto() {
         this.content = new ArrayList<>();
         this.refreshPageable();
     }

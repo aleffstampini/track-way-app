@@ -1,7 +1,7 @@
 package br.com.trackwayapp.exception;
 
 import br.com.trackwayapp.dto.response.StringDefaultPageableResponseDto;
-import br.com.trackwayapp.dto.response.ZipCodeResponseDto;
+import br.com.trackwayapp.dto.response.PostalCodeResponseDto;
 import br.com.trackwayapp.enums.StatusEnum;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +17,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ZipCodeNotFoundException.class)
-    public final ResponseEntity<ZipCodeResponseDto> handleZipCodeNotFoundException(ZipCodeNotFoundException exception) {
-        ZipCodeResponseDto response = new ZipCodeResponseDto();
+    @ExceptionHandler(PostalCodeNotFoundException.class)
+    public final ResponseEntity<PostalCodeResponseDto> handlePostalCodeNotFoundException(PostalCodeNotFoundException exception) {
+        PostalCodeResponseDto response = new PostalCodeResponseDto();
         response.setMessage(exception.getMessage());
         response.setStatus(StatusEnum.ERROR);
 
@@ -27,7 +27,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public final ResponseEntity<StringDefaultPageableResponseDto> handleEntityExistsException(EntityNotFoundException exception) {
+    public final ResponseEntity<StringDefaultPageableResponseDto> handleEntityNotFoundException(EntityNotFoundException exception) {
         StringDefaultPageableResponseDto response = new StringDefaultPageableResponseDto(exception.getMessage());
         response.setStatus(StatusEnum.ERROR);
 

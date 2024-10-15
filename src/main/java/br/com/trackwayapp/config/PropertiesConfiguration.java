@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Primary;
 @Data
 public class PropertiesConfiguration {
 
-    @Value("${zip_code.api.base_url}")
-    private String zipCodeApiBaseUrl;
+    @Value("${postal_code.api.base_url}")
+    private String postalCodeApiBaseUrl;
 
 }

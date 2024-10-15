@@ -63,7 +63,7 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 1601
 
-      ZIP_CODE_API_URL: http://wiremock:8080//zipcode/
+      POSTAL_CODE_API_URL: http://wiremock:8080//postalcode/
     depends_on:
       - postgres
       - wiremock
