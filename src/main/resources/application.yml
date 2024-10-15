@@ -18,7 +18,18 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
       ddl-auto: update
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: group_id
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 zip_code:
   api:
-    base_url: http://wiremock:8080//zipcode/
+    base_url: ${ZIP_CODE_API_URL}
