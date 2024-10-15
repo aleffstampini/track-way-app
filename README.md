@@ -42,3 +42,5 @@ A arquitetura do **TrackWayApp** segue os princípios de **microsserviços** e *
 - **Swagger**: Ferramenta para documentação da API que gera uma interface gráfica para interação com os endpoints.
 
 ---
+### **Desenho de Solução**
+![Descrição da imagem](https://i.ibb.co/YTy0dCG/Desenho-de-Solu-o.jpg)
