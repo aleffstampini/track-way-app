@@ -35,8 +35,8 @@ public class ProductHistory {
     @Enumerated(EnumType.STRING)
     private ProductHistoryEnum status;
 
-    @Column(name = "current_postal_code")
-    private String currentPostalCode;
+    @Column(name = "postal_code")
+    private String postalCode;
 
     @Column(name = "update_timestamp")
     private LocalDateTime updateTimestamp;

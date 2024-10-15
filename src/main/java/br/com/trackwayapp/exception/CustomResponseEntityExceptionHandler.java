@@ -1,8 +1,9 @@
 package br.com.trackwayapp.exception;
 
-import br.com.trackwayapp.dto.response.StringDefaultPageableResponseDto;
 import br.com.trackwayapp.dto.response.PostalCodeResponseDto;
+import br.com.trackwayapp.dto.response.StringDefaultPageableResponseDto;
 import br.com.trackwayapp.enums.StatusEnum;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,17 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<StringDefaultPageableResponseDto> handleEntityNotFoundException(EntityNotFoundException exception) {
         StringDefaultPageableResponseDto response = new StringDefaultPageableResponseDto(exception.getMessage());
         response.setStatus(StatusEnum.ERROR);
+        response.setMessage(exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(JsonProcessingException.class)
+    public final ResponseEntity<StringDefaultPageableResponseDto> handleJsonProcessingException(JsonProcessingException exception) {
+        StringDefaultPageableResponseDto response = new StringDefaultPageableResponseDto(exception.getMessage());
+        response.setStatus(StatusEnum.ERROR);
+        response.setMessage(exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }

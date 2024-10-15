@@ -19,16 +19,20 @@ public class ProductDetailsService {
 
     private final ProductDetailsRepository productDetailsRepository;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
-    public void saveProductDetails(ProductHistory productHistory, PostalCodeDetailsResponseDto apiResponse) throws JsonProcessingException {
+    public void saveProductDetails(ProductHistory productHistory, PostalCodeDetailsResponseDto apiResponse) {
         ProductDetails productDetails = new ProductDetails();
         productDetails.setProductHistory(productHistory);
         productDetails.setQueryTimestamp(LocalDateTime.now());
 
-        String apiResponseJson = apiResponse != null ? objectMapper.writeValueAsString(apiResponse) : "{}";
-
-        productDetails.setApiResponse(apiResponseJson);
+        try {
+            String apiResponseJson = apiResponse != null ? objectMapper.writeValueAsString(apiResponse) : "{}";
+            productDetails.setApiResponse(apiResponseJson);
+        } catch (JsonProcessingException e) {
+            log.error("Error converting API response to JSON", e);
+            throw new RuntimeException("Failed to convert API response", e);
+        }
 
         this.productDetailsRepository.save(productDetails);
     }

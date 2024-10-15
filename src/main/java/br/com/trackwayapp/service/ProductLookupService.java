@@ -24,7 +24,6 @@ public class ProductLookupService {
 
     public ProductResponseDto getAllProducts(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-
         Page<Product> products = this.productRepository.findAll(pageRequest);
 
         return new ProductResponseDto(products);

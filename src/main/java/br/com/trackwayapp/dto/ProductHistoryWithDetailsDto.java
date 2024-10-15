@@ -11,14 +11,14 @@ public class ProductHistoryWithDetailsDto {
 
     private Long id;
     private ProductHistoryEnum status;
-    private String currentPostalCode;
+    private String postalCode;
     private LocalDateTime updateTimestamp;
     private ProductDetailsDto details;
 
     public ProductHistoryWithDetailsDto(ProductHistory history) {
         this.id = history.getId();
         this.status = history.getStatus();
-        this.currentPostalCode = history.getCurrentPostalCode();
+        this.postalCode = history.getPostalCode();
         this.updateTimestamp = history.getUpdateTimestamp();
     }
 }

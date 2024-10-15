@@ -7,5 +7,5 @@ import lombok.Data;
 public class ProductStatusUpdateDto {
     private Long productId;
     private ProductHistoryEnum status;
-    private String currentPostalCode;
+    private String postalCode;
 }

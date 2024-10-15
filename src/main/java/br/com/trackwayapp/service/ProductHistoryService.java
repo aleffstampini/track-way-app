@@ -5,20 +5,12 @@ import br.com.trackwayapp.domain.ProductDetails;
 import br.com.trackwayapp.domain.ProductHistory;
 import br.com.trackwayapp.dto.ProductCompleteDto;
 import br.com.trackwayapp.dto.ProductDetailsDto;
-import br.com.trackwayapp.dto.ProductHistoryDto;
 import br.com.trackwayapp.dto.ProductHistoryWithDetailsDto;
-import br.com.trackwayapp.dto.ProductStatusUpdateDto;
-import br.com.trackwayapp.dto.ProductWithoutDetailsDto;
-import br.com.trackwayapp.dto.response.PostalCodeDetailsResponseDto;
 import br.com.trackwayapp.dto.response.ProductHistoryDetailResponseDto;
-import br.com.trackwayapp.dto.response.ProductHistoryResponseDto;
 import br.com.trackwayapp.enums.ProductHistoryEnum;
 import br.com.trackwayapp.repository.ProductHistoryRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,35 +27,6 @@ public class ProductHistoryService {
 
     private final ProductLookupService productLookupService;
     private final ProductDetailsService productDetailsService;
-    private final PostalCodeService postalCodeService;
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    public ProductHistoryResponseDto getProductHistory(Long productId) {
-        Product product = this.productLookupService.getProductById(productId);
-
-        List<ProductHistory> histories = this.getHistoriesByProductId(productId);
-
-        List<ProductHistoryDto> finalHistories = new ArrayList<>();
-
-        for (ProductHistory history : histories) {
-            ProductHistoryDto productHistoryDto = new ProductHistoryDto(history);
-            finalHistories.add(productHistoryDto);
-        }
-
-        ProductWithoutDetailsDto productWithoutDetailsDto = new ProductWithoutDetailsDto(product);
-        productWithoutDetailsDto.setHistories(finalHistories);
-
-        String mostRecentPostalCode = finalHistories.stream()
-            .max(Comparator.comparing(ProductHistoryDto::getUpdateTimestamp))
-            .map(ProductHistoryDto::getCurrentPostalCode)
-            .orElse(null);
-
-        productWithoutDetailsDto.setCurrentPostalCode(mostRecentPostalCode);
-
-        return new ProductHistoryResponseDto(productWithoutDetailsDto);
-
-    }
 
     public ProductHistoryDetailResponseDto getProductHistoryDetails(Long productId) {
         Product product = this.productLookupService.getProductById(productId);
@@ -87,7 +50,7 @@ public class ProductHistoryService {
 
         String mostRecentPostalCode = finalHistories.stream()
             .max(Comparator.comparing(ProductHistoryWithDetailsDto::getUpdateTimestamp))
-            .map(ProductHistoryWithDetailsDto::getCurrentPostalCode)
+            .map(ProductHistoryWithDetailsDto::getPostalCode)
             .orElse(null);
 
         productCompleteDto.setCurrentPostalCode(mostRecentPostalCode);
@@ -95,25 +58,11 @@ public class ProductHistoryService {
         return new ProductHistoryDetailResponseDto(productCompleteDto);
     }
 
-    @KafkaListener(topics = "update-product-status", groupId = "group_id")
-    public void updateProductStatus(String message) throws JsonProcessingException {
-        ProductStatusUpdateDto productStatusUpdate = objectMapper.readValue(message, ProductStatusUpdateDto.class);
-
-        log.info("Status update received for product: {}", productStatusUpdate.getProductId());
-        Product product = this.productLookupService.getProductById(productStatusUpdate.getProductId());
-
-        ProductHistory productHistory = this.saveProductHistory(product, productStatusUpdate);
-
-        PostalCodeDetailsResponseDto postalCodeDetails = this.postalCodeService.getPostalCodeDetails(productHistory);
-
-        this.productDetailsService.saveProductDetails(productHistory, postalCodeDetails);
-    }
-
     public ProductHistory saveProductHistory(Product product, String currentPostalCode) {
         ProductHistory productHistory = new ProductHistory();
         productHistory.setProduct(product);
         productHistory.setStatus(ProductHistoryEnum.POSTED);
-        productHistory.setCurrentPostalCode(currentPostalCode);
+        productHistory.setPostalCode(currentPostalCode);
         productHistory.setUpdateTimestamp(LocalDateTime.now());
 
         log.info("New history for product saved with status: {}", ProductHistoryEnum.POSTED);
@@ -126,16 +75,5 @@ public class ProductHistoryService {
         return product.getHistory().stream()
             .sorted(Comparator.comparing(ProductHistory::getUpdateTimestamp))
             .toList();
-    }
-
-    private ProductHistory saveProductHistory(Product product, ProductStatusUpdateDto productStatusUpdate) {
-        ProductHistory productHistory = new ProductHistory();
-        productHistory.setProduct(product);
-        productHistory.setStatus(productStatusUpdate.getStatus());
-        productHistory.setCurrentPostalCode(productStatusUpdate.getCurrentPostalCode());
-        productHistory.setUpdateTimestamp(LocalDateTime.now());
-
-        log.info("New history for product {} saved with status: {}", product.getId(), productStatusUpdate.getStatus());
-        return this.productHistoryRepository.save(productHistory);
     }
 }

@@ -27,27 +27,40 @@ public class ProductService {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "add-product", groupId = "group_id")
-    public void addProduct(String message) throws JsonProcessingException {
-        ProductDto productDto = this.objectMapper.readValue(message, ProductDto.class);
+    public void addProduct(String message) {
+        try {
+            ProductDto productDto = objectMapper.readValue(message, ProductDto.class);
+            Product product = this.createProductFromDto(productDto);
+            Product savedProduct = this.productRepository.save(product);
 
+            this.handleProductHistory(savedProduct, productDto);
+
+            this.eventPublisher.publishEvent(new ProductCreatedEvent(savedProduct));
+        } catch (JsonProcessingException e) {
+            log.error("Error processing product message: {}", message, e);
+        }
+    }
+
+    private Product createProductFromDto(ProductDto productDto) {
         Product product = new Product();
         product.setName(productDto.getName());
         product.setDestinationAddress(productDto.getDestinationAddress());
         product.setWeight(productDto.getWeight());
 
-        Product savedProduct = this.productRepository.save(product);
+        return product;
+    }
 
-        ProductHistory savedProductHistory = this.productHistoryService.saveProductHistory(
+    private void handleProductHistory(Product savedProduct, ProductDto productDto) {
+        ProductHistory savedProductHistory = productHistoryService.saveProductHistory(
             savedProduct, productDto.getCurrentPostalCode());
 
-        PostalCodeDetailsResponseDto postalCodeDetailsResponse = this.postalCodeService.getPostalCodeDetails(savedProductHistory);
+        PostalCodeDetailsResponseDto postalCodeDetailsResponse = this.postalCodeService
+            .getPostalCodeDetails(savedProductHistory);
 
         this.productDetailsService.saveProductDetails(savedProductHistory, postalCodeDetailsResponse);
-
-        this.eventPublisher.publishEvent(new ProductCreatedEvent(product));
     }
 
     public void updateProduct(Product product) {
