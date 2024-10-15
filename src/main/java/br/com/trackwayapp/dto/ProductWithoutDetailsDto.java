@@ -3,10 +3,12 @@ package br.com.trackwayapp.dto;
 
 import br.com.trackwayapp.domain.Product;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 @Setter
 public class ProductWithoutDetailsDto extends ProductDto {

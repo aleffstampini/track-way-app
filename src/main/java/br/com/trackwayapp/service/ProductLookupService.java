@@ -1,14 +1,13 @@
 package br.com.trackwayapp.service;
 
 import br.com.trackwayapp.domain.Product;
+import br.com.trackwayapp.dto.response.ProductResponseDto;
 import br.com.trackwayapp.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,11 @@ public class ProductLookupService {
             .orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
 
-    public Page<Product> getAllProducts(PageRequest pageRequest) {
-        return this.productRepository.findAll(pageRequest);
+    public ProductResponseDto getAllProducts(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        Page<Product> products = this.productRepository.findAll(pageRequest);
+
+        return new ProductResponseDto(products);
     }
 }
