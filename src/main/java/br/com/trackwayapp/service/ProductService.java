@@ -46,7 +46,7 @@ public class ProductService {
         ProductLocation newLocation = new ProductLocation();
         newLocation.setProduct(product);
         newLocation.setStatus(productStatusUpdate.getStatus());
-        newLocation.setCurrentLocation(productStatusUpdate.getCurrentLocation());
+        newLocation.setCurrentZipCode(productStatusUpdate.getCurrentLocation());
         newLocation.setUpdateTimestamp(LocalDateTime.now());
 
         this.productLocationRepository.save(newLocation);
