@@ -1,4 +1,4 @@
-# **TrackWayApp - Serviço de Gerenciamento de Produtos e Cálculo de Frete**
+# **TrackWayApp - Serviço de Rastreio de Produtos e Cálculo de Frete**
 
 [![Java](https://img.shields.io/badge/Java-17%2B-blue.svg)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.7.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
