@@ -3,6 +3,7 @@ package br.com.trackwayapp.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,8 +30,18 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "destinationAddress")
-    private String destinationAddress;
+    @Column(name = "weight")
+    private Double weight;
+
+    @Column(name = "freight_value")
+    private Double freightValue;
+
+    @Column(name = "estimated_delivery_date")
+    private String estimatedDeliveryDate;
+
+    @Embedded
+    @Column(name = "destination_address")
+    private Address destinationAddress;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnore

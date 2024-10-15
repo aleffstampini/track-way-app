@@ -19,6 +19,6 @@ public class ProductWithoutDetailsDto extends ProductDto {
         this.setId(product.getId());
         this.setName(product.getName());
         this.setDestinationAddress(product.getDestinationAddress());
+        this.setWeight(product.getWeight());
     }
-
 }

@@ -3,13 +3,13 @@ package br.com.trackwayapp.service;
 import br.com.trackwayapp.domain.Product;
 import br.com.trackwayapp.domain.ProductDetails;
 import br.com.trackwayapp.domain.ProductHistory;
+import br.com.trackwayapp.dto.ProductCompleteDto;
+import br.com.trackwayapp.dto.ProductDetailsDto;
 import br.com.trackwayapp.dto.ProductHistoryDto;
 import br.com.trackwayapp.dto.ProductHistoryWithDetailsDto;
 import br.com.trackwayapp.dto.ProductStatusUpdateDto;
 import br.com.trackwayapp.dto.ProductWithoutDetailsDto;
 import br.com.trackwayapp.dto.response.PostalCodeDetailsResponseDto;
-import br.com.trackwayapp.dto.ProductDetailsDto;
-import br.com.trackwayapp.dto.ProductCompleteDto;
 import br.com.trackwayapp.dto.response.ProductHistoryDetailResponseDto;
 import br.com.trackwayapp.dto.response.ProductHistoryResponseDto;
 import br.com.trackwayapp.enums.ProductHistoryEnum;
@@ -54,6 +54,13 @@ public class ProductHistoryService {
         ProductWithoutDetailsDto productWithoutDetailsDto = new ProductWithoutDetailsDto(product);
         productWithoutDetailsDto.setHistories(finalHistories);
 
+        String mostRecentPostalCode = finalHistories.stream()
+            .max(Comparator.comparing(ProductHistoryDto::getUpdateTimestamp))
+            .map(ProductHistoryDto::getCurrentPostalCode)
+            .orElse(null);
+
+        productWithoutDetailsDto.setCurrentPostalCode(mostRecentPostalCode);
+
         return new ProductHistoryResponseDto(productWithoutDetailsDto);
 
     }
@@ -77,6 +84,13 @@ public class ProductHistoryService {
 
         ProductCompleteDto productCompleteDto = new ProductCompleteDto(product);
         productCompleteDto.setHistories(finalHistories);
+
+        String mostRecentPostalCode = finalHistories.stream()
+            .max(Comparator.comparing(ProductHistoryWithDetailsDto::getUpdateTimestamp))
+            .map(ProductHistoryWithDetailsDto::getCurrentPostalCode)
+            .orElse(null);
+
+        productCompleteDto.setCurrentPostalCode(mostRecentPostalCode);
 
         return new ProductHistoryDetailResponseDto(productCompleteDto);
     }
