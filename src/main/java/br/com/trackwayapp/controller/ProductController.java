@@ -33,8 +33,7 @@ public class ProductController {
         @ApiResponse(responseCode = "200", description = "Lista de produtos retornada com sucesso",
             content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = ProductResponseDto.class))),
-        @ApiResponse(responseCode = "404", description = "Nenhum produto encontrado",
-            content = @Content)
+        @ApiResponse(responseCode = "404", description = "Nenhum produto encontrado", content = @Content)
     })
     @GetMapping
     public ResponseEntity<ProductResponseDto> getAllProducts(
@@ -48,11 +47,11 @@ public class ProductController {
         @ApiResponse(responseCode = "200", description = "Histórico retornado com sucesso",
             content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = ProductHistoryResponseDto.class))),
-        @ApiResponse(responseCode = "404", description = "Produto não encontrado",
-            content = @Content)
+        @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content)
     })
     @GetMapping("/{productId}/history")
-    public ResponseEntity<ProductHistoryResponseDto> getHistory(@PathVariable(name = "productId") Long productId) {
+    public ResponseEntity<ProductHistoryResponseDto> getHistory(
+            @PathVariable(name = "productId") Long productId) {
         return ResponseEntity.ok(this.productHistoryQueryService.getProductHistory(productId));
     }
 
@@ -61,8 +60,7 @@ public class ProductController {
         @ApiResponse(responseCode = "200", description = "Histórico detalhado retornado com sucesso",
             content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = ProductHistoryDetailResponseDto.class))),
-        @ApiResponse(responseCode = "404", description = "Produto não encontrado",
-            content = @Content)
+        @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content)
     })
     @GetMapping("/{productId}/history/details")
     public ResponseEntity<ProductHistoryDetailResponseDto> getHistoryDetails(
