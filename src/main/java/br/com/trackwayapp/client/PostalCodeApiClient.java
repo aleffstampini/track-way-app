@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class PostalCodeApiClient {
 
     private final RestTemplate restTemplate;
+
     private final PropertiesConfiguration propertiesConfiguration;
 
     public PostalCodeDetailsResponseDto fetchPostalCodeDetails(String zipCode) {
@@ -30,12 +31,12 @@ public class PostalCodeApiClient {
             return this.handleResponse(responseEntity);
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode().value() == 404) {
-                String messageError = "Zip code not found: " + zipCode;
+                String messageError = "Postal code not found: " + zipCode;
 
                 log.error(messageError);
                 throw new PostalCodeNotFoundException(messageError);
             } else {
-                log.error("Unexpected error fetching zip code details: {}", e.getMessage());
+                log.error("Unexpected error fetching Postal code details: {}", e.getMessage());
                 throw new RuntimeException("Unexpected error: " + e.getMessage());
             }
         }
@@ -47,6 +48,6 @@ public class PostalCodeApiClient {
         }
 
         log.error("Unexpected status code: {}", responseEntity.getStatusCode());
-        throw new RuntimeException("Unexpected error while fetching zip code details.");
+        throw new RuntimeException("Unexpected error while fetching Postal code details.");
     }
 }
