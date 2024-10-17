@@ -19,7 +19,7 @@ public class FreightCalculationService {
     public void calculateFreight(Product product) {
         log.info("Calculating freight value and estimated delivery date for product: {}", product.getId());
         double freightValue = this.freightCalculator.calculateFreightValue(product.getWeight(), product.getDestinationAddress());
-        String estimatedDeliveryDate = LocalDateTime.now().plusDays(5).toString();
+        String estimatedDeliveryDate = LocalDateTime.now().plusDays(7).toString();
 
         product.setFreightValue(freightValue);
         product.setEstimatedDeliveryDate(estimatedDeliveryDate);

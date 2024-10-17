@@ -7,7 +7,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\"postalCode\":\"09361190\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Camila\",\"street\":\"Rua Lontras\",\"latitude\":-23.697466,\"longitude\":-46.4574843}",
+        "body": "{\"postalCode\":\"09361190\",\"state\":\"RJ\",\"city\":\"Rio de Janeiro\",\"neighborhood\":\"Copacabana\",\"street\":\"Avenida Atlântica\",\"latitude\":-22.9719645,\"longitude\":-43.1825535}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -20,7 +20,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\"postalCode\":\"09361110\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Oratório\",\"street\":\"Rua Hélio\",\"latitude\":-23.693019,\"longitude\":-46.463549}",
+        "body": "{\"postalCode\":\"09361110\",\"state\":\"MG\",\"city\":\"Belo Horizonte\",\"neighborhood\":\"Savassi\",\"street\":\"Rua Pernambuco\",\"latitude\":-19.9388494,\"longitude\":-43.9335402}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -33,7 +33,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\"postalCode\":\"09361000\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Centro\",\"street\":\"Rua São Paulo\",\"latitude\":-23.673167,\"longitude\":-46.4635083}",
+        "body": "{\"postalCode\":\"09361000\",\"state\":\"SP\",\"city\":\"São Paulo\",\"neighborhood\":\"Vila Mariana\",\"street\":\"Rua Domingos de Morais\",\"latitude\":-23.587416,\"longitude\":-46.641274}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -46,7 +46,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\"postalCode\":\"09360400\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Alvorada\",\"street\":\"Avenida Guarulhos\",\"latitude\":-23.680771,\"longitude\":-46.4695373}",
+        "body": "{\"postalCode\":\"09360400\",\"state\":\"RS\",\"city\":\"Porto Alegre\",\"neighborhood\":\"Moinhos de Vento\",\"street\":\"Rua Padre Chagas\",\"latitude\":-30.025033,\"longitude\":-51.2035559}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -59,7 +59,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\"postalCode\":\"09361700\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Zaira\",\"street\":\"Rua Guarani\",\"latitude\":-23.688693,\"longitude\":-46.4556775}",
+        "body": "{\"postalCode\":\"09361700\",\"state\":\"PR\",\"city\":\"Curitiba\",\"neighborhood\":\"Batel\",\"street\":\"Avenida do Batel\",\"latitude\":-25.4417857,\"longitude\":-49.2895938}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -72,7 +72,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\"postalCode\":\"09361180\",\"state\":\"SP\",\"city\":\"Mauá\",\"neighborhood\":\"Jardim Aida\",\"street\":\"Rua Araras\",\"latitude\":-23.692251,\"longitude\":-46.4608471}",
+        "body": "{\"postalCode\":\"09361180\",\"state\":\"BA\",\"city\":\"Salvador\",\"neighborhood\":\"Barra\",\"street\":\"Avenida Sete de Setembro\",\"latitude\":-13.0153505,\"longitude\":-38.5279293}",
         "headers": {
           "Content-Type": "application/json"
         }
