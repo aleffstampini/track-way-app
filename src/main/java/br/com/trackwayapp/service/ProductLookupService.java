@@ -15,8 +15,6 @@ public class ProductLookupService {
 
     private final ProductRepository productRepository;
 
-    private static final int DEFAULT_PAGE_NUMBER = 0;
-
     public Product getProductById(Long productId) {
         return this.productRepository.findById(productId)
             .orElseThrow(() -> new EntityNotFoundException("Product not found"));
