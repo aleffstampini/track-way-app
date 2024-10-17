@@ -29,7 +29,7 @@ public class ProductService {
 
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "add-product", groupId = "group_id")
+    @KafkaListener(topics = "add-product", groupId = "product-consumer-group")
     public void addProduct(String message) {
         try {
             ProductDto productDto = objectMapper.readValue(message, ProductDto.class);

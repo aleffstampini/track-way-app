@@ -26,7 +26,7 @@ public class ProductHistoryUpdateService {
 
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "update-product-status", groupId = "group_id")
+    @KafkaListener(topics = "update-product-status", groupId = "product-consumer-group")
     public void updateProductStatus(String message) {
         try {
             ProductStatusUpdateDto productStatusUpdate = this.objectMapper.readValue(message, ProductStatusUpdateDto.class);

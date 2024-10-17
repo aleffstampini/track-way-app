@@ -21,7 +21,7 @@ spring:
   kafka:
     bootstrap-servers: kafka:9092
     consumer:
-      group-id: group_id
+      group-id: product-consumer-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
