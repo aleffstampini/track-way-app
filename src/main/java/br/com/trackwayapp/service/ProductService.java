@@ -21,7 +21,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    private final ProductHistoryService productHistoryService;
+    private final ProductHistoryUpdateService productHistoryUpdateService;
     private final ProductDetailsService productDetailsService;
     private final PostalCodeService postalCodeService;
 
@@ -54,7 +54,7 @@ public class ProductService {
     }
 
     private void handleProductHistory(Product savedProduct, ProductDto productDto) {
-        ProductHistory savedProductHistory = productHistoryService.saveProductHistory(
+        ProductHistory savedProductHistory = this.productHistoryUpdateService.saveProductHistory(
             savedProduct, productDto.getCurrentPostalCode());
 
         PostalCodeDetailsResponseDto postalCodeDetailsResponse = this.postalCodeService

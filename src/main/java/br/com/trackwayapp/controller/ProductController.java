@@ -3,7 +3,6 @@ package br.com.trackwayapp.controller;
 import br.com.trackwayapp.dto.response.ProductHistoryDetailResponseDto;
 import br.com.trackwayapp.dto.response.ProductHistoryResponseDto;
 import br.com.trackwayapp.dto.response.ProductResponseDto;
-import br.com.trackwayapp.service.ProductHistoryQueryService;
 import br.com.trackwayapp.service.ProductHistoryService;
 import br.com.trackwayapp.service.ProductLookupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductLookupService productLookupService;
-    private final ProductHistoryQueryService productHistoryQueryService;
     private final ProductHistoryService productHistoryService;
 
     @Operation(summary = "Obter todos os produtos", description = "Retorna uma lista paginada de produtos")
@@ -52,7 +50,7 @@ public class ProductController {
     @GetMapping("/{productId}/history")
     public ResponseEntity<ProductHistoryResponseDto> getHistory(
             @PathVariable(name = "productId") Long productId) {
-        return ResponseEntity.ok(this.productHistoryQueryService.getProductHistory(productId));
+        return ResponseEntity.ok(this.productHistoryService.getProductHistory(productId));
     }
 
     @Operation(summary = "Obter histórico detalhado do produto", description = "Retorna o histórico detalhado do produto especificado pelo ID")

@@ -5,28 +5,48 @@ import br.com.trackwayapp.domain.ProductDetails;
 import br.com.trackwayapp.domain.ProductHistory;
 import br.com.trackwayapp.dto.ProductCompleteDto;
 import br.com.trackwayapp.dto.ProductDetailsDto;
+import br.com.trackwayapp.dto.ProductHistoryDto;
 import br.com.trackwayapp.dto.ProductHistoryWithDetailsDto;
+import br.com.trackwayapp.dto.ProductWithoutDetailsDto;
 import br.com.trackwayapp.dto.response.ProductHistoryDetailResponseDto;
-import br.com.trackwayapp.enums.ProductHistoryEnum;
-import br.com.trackwayapp.repository.ProductHistoryRepository;
+import br.com.trackwayapp.dto.response.ProductHistoryResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProductHistoryService {
 
-    private final ProductHistoryRepository productHistoryRepository;
-
     private final ProductLookupService productLookupService;
     private final ProductDetailsService productDetailsService;
+
+    public ProductHistoryResponseDto getProductHistory(Long productId) {
+        Product product = this.productLookupService.getProductById(productId);
+        List<ProductHistory> histories = this.getHistoriesByProductId(productId);
+
+        List<ProductHistoryDto> finalHistories = histories.stream()
+            .map(ProductHistoryDto::new)
+            .collect(Collectors.toList());
+
+        ProductWithoutDetailsDto productWithoutDetailsDto = new ProductWithoutDetailsDto(product);
+        productWithoutDetailsDto.setHistories(finalHistories);
+
+        String mostRecentPostalCode = finalHistories.stream()
+            .max(Comparator.comparing(ProductHistoryDto::getUpdateTimestamp))
+            .map(ProductHistoryDto::getPostalCode)
+            .orElse(null);
+
+        productWithoutDetailsDto.setCurrentPostalCode(mostRecentPostalCode);
+
+        return new ProductHistoryResponseDto(productWithoutDetailsDto);
+    }
 
     public ProductHistoryDetailResponseDto getProductHistoryDetails(Long productId) {
         Product product = this.productLookupService.getProductById(productId);
@@ -56,17 +76,6 @@ public class ProductHistoryService {
         productCompleteDto.setCurrentPostalCode(mostRecentPostalCode);
 
         return new ProductHistoryDetailResponseDto(productCompleteDto);
-    }
-
-    public ProductHistory saveProductHistory(Product product, String currentPostalCode) {
-        ProductHistory productHistory = new ProductHistory();
-        productHistory.setProduct(product);
-        productHistory.setStatus(ProductHistoryEnum.POSTED);
-        productHistory.setPostalCode(currentPostalCode);
-        productHistory.setUpdateTimestamp(LocalDateTime.now());
-
-        log.info("New history for product saved with status: {}", ProductHistoryEnum.POSTED);
-        return this.productHistoryRepository.save(productHistory);
     }
 
     private List<ProductHistory> getHistoriesByProductId(Long productId) {

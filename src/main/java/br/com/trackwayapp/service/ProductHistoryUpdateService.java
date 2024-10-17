@@ -4,6 +4,7 @@ import br.com.trackwayapp.domain.Product;
 import br.com.trackwayapp.domain.ProductHistory;
 import br.com.trackwayapp.dto.ProductStatusUpdateDto;
 import br.com.trackwayapp.dto.response.PostalCodeDetailsResponseDto;
+import br.com.trackwayapp.enums.ProductHistoryEnum;
 import br.com.trackwayapp.repository.ProductHistoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,17 @@ public class ProductHistoryUpdateService {
         } catch (Exception e) {
             log.error("Error updating product status", e);
         }
+    }
+
+    public ProductHistory saveProductHistory(Product product, String currentPostalCode) {
+        ProductHistory productHistory = new ProductHistory();
+        productHistory.setProduct(product);
+        productHistory.setStatus(ProductHistoryEnum.POSTED);
+        productHistory.setPostalCode(currentPostalCode);
+        productHistory.setUpdateTimestamp(LocalDateTime.now());
+
+        log.info("New history for product saved with status: {}", ProductHistoryEnum.POSTED);
+        return this.productHistoryRepository.save(productHistory);
     }
 
     private ProductHistory saveProductHistory(Product product, ProductStatusUpdateDto productStatusUpdate) {
