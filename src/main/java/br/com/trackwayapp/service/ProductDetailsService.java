@@ -21,13 +21,17 @@ public class ProductDetailsService {
 
     private final ObjectMapper objectMapper;
 
+    public ProductDetails getProductDetailsByProductHistory(ProductHistory productHistory) {
+        return this.productDetailsRepository.findByProductHistory(productHistory);
+    }
+
     public void saveProductDetails(ProductHistory productHistory, PostalCodeDetailsResponseDto apiResponse) {
         ProductDetails productDetails = new ProductDetails();
         productDetails.setProductHistory(productHistory);
         productDetails.setQueryTimestamp(LocalDateTime.now());
 
         try {
-            String apiResponseJson = apiResponse != null ? objectMapper.writeValueAsString(apiResponse) : "{}";
+            String apiResponseJson = apiResponse != null ? this.objectMapper.writeValueAsString(apiResponse) : "{}";
             productDetails.setApiResponse(apiResponseJson);
         } catch (JsonProcessingException e) {
             log.error("Error converting API response to JSON", e);
@@ -35,9 +39,5 @@ public class ProductDetailsService {
         }
 
         this.productDetailsRepository.save(productDetails);
-    }
-
-    public ProductDetails getProductDetailsByProductHistory(ProductHistory productHistory) {
-        return this.productDetailsRepository.findByProductHistory(productHistory);
     }
 }
