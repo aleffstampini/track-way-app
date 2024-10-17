@@ -3,7 +3,7 @@
     {
       "request": {
         "method": "GET",
-        "urlPathPattern": "/postalcode/0936190"
+        "urlPathPattern": "/postalcode/09361190"
       },
       "response": {
         "status": 200,

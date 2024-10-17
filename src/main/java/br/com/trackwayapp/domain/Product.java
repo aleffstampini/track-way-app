@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class Product {
     private Double freightValue;
 
     @Column(name = "estimated_delivery_date")
-    private String estimatedDeliveryDate;
+    private LocalDate estimatedDeliveryDate;
 
     @Embedded
     @Column(name = "destination_address")
